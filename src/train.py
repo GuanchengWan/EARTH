@@ -119,7 +119,7 @@ else:
     log_token = '%s.%s.w-%s.h-%s.%s' % (args.model, args.dataset, args.window, args.horizon, args.rnn_model)
 
 if args.mylog:
-    tensorboard_log_dir = 'tensorboard/%s' % (log_token)
+    tensorboard_log_dir = 'tensorboeard/%s' % (log_token)
     if not os.path.exists(tensorboard_log_dir):
         os.makedirs(tensorboard_log_dir)
     writer = SummaryWriter(tensorboard_log_dir)
@@ -130,31 +130,7 @@ if args.mylog:
 
 data_loader = DataCDELoader(args)
 
-if args.model == 'CNNRNN_Res':
-    model = CNNRNN_Res(args, data_loader)  
-elif args.model == 'RNN':
-    model = RNN(args, data_loader)
-elif args.model == 'AR':
-    model = AR(args, data_loader)
-elif args.model == 'ARMA':
-    model = ARMA(args, data_loader)
-elif args.model == 'VAR':
-    model = VAR(args, data_loader)
-elif args.model == 'GAR':
-    model = GAR(args, data_loader)
-elif args.model == 'SelfAttnRNN':
-    model = SelfAttnRNN(args, data_loader)
-elif args.model == 'lstnet':
-    model = LSTNet(args, data_loader)      
-elif args.model == 'stgcn':
-    model = STGCN(args, data_loader, data_loader.m, 1, args.window, 1)  
-elif args.model == 'dcrnn':
-    model = DCRNNModel(args, data_loader)   
-elif args.model == 'cola_gnn':
-    model = cola_gnn(args, data_loader)     
-elif args.model == 'cola_gnn_epi':
-    model = cola_gnn_epi(args, data_loader)
-elif args.model == 'mamba_epi':
+if args.model == 'mamba_epi':
     model = mamba_epi(args, data_loader)
 else: 
     raise LookupError('can not find the model')
@@ -167,37 +143,6 @@ pytorch_total_params = sum(p.numel() for p in model.parameters() if p.requires_g
 print('#params:',pytorch_total_params)
 
 
-def test_stage_prediction(outputs, dynamic_adj):
-    """
-    outputs: 模型输出，形状为 (batch_size, domain_number)
-    dynamic_adj: 域间关系矩阵，形状为 (batch_size, domain_number, domain_number)
-    """
-    # 计算每个测试点的加权预测
-    weighted_predictions = torch.bmm(dynamic_adj, outputs.unsqueeze(-1)).squeeze(-1)
-    
-    # 计算总权重，用于标准化
-    total_weights = dynamic_adj.sum(dim=2)
-    
-    # 标准化加权预测
-    normalized_predictions = weighted_predictions / total_weights.clamp(min=1e-8)  # 避免除以零
-
-    return normalized_predictions
-
-
-    # for inputs in data_loader.get_batches(data, batch_size, True):
-    #     X, Y, train_coeffs  = inputs[0], inputs[1], inputs[2]
-    #     X = X.cuda()
-    #     Y = Y.cuda()
-    
-    #     optimizer.zero_grad()
-        
-    #     if modelName == "cola_gnn_epi":
-    #         output, EpiOutPut, _, _, _ = model(X)
-    #     else:
-    #         results, dynamic_adj  = model(data_loader.times, train_coeffs)
-
-    #     if Y.size(0) == 1:
-    #         Y = Y.view(-1)
 
 def _add_weight_regularisation(total_loss, regularise_parameters, scaling=0.03):
     for parameter in regularise_parameters.parameters():
