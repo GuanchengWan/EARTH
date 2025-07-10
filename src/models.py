@@ -91,7 +91,7 @@ class MultiHeadedSimilarity(nn.Module):
     
     
 
-class mamba_epi(nn.Module):
+class earth_epi(nn.Module):
     def __init__(self, args, data): 
         super().__init__()
         self.x_h = 1 

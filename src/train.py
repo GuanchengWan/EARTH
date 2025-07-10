@@ -66,7 +66,7 @@ ap.add_argument('--shuffle', action='store_true', default=False, help="not used,
 ap.add_argument('--train', type=float, default=.5, help="Training ratio (0, 1)")
 ap.add_argument('--val', type=float, default=.3, help="Validation ratio (0, 1)")
 ap.add_argument('--test', type=float, default=.2, help="Testing ratio (0, 1)")
-ap.add_argument('--model', default='cola_gnn_epi', choices=["mamba_epi", 'cola_gnn_epi', 'cola_gnn','CNNRNN_Res','RNN','AR','ARMA','VAR','GAR','SelfAttnRNN','lstnet','stgcn','dcrnn'], help='')
+ap.add_argument('--model', default='cola_gnn_epi', choices=["earth_epi", 'cola_gnn_epi', 'cola_gnn','CNNRNN_Res','RNN','AR','ARMA','VAR','GAR','SelfAttnRNN','lstnet','stgcn','dcrnn'], help='')
 ap.add_argument('--rnn_model', default='RNN', choices=['LSTM','RNN','GRU'], help='')
 ap.add_argument('--mylog', action='store_false', default=False,  help='save tensorboad log')
 
@@ -130,8 +130,8 @@ if args.mylog:
 
 data_loader = DataCDELoader(args)
 
-if args.model == 'mamba_epi':
-    model = mamba_epi(args, data_loader)
+if args.model == 'earth_epi':
+    model = earth_epi(args, data_loader)
 else: 
     raise LookupError('can not find the model')
 

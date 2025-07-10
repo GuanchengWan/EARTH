@@ -29,7 +29,7 @@ do
     model_option="--model ${MODEL} --epochs ${epochs} --epilambda ${lam} --gpu ${gpu_id}"
     rnn_option="--n_hidden ${hid}"
     option="--lr ${lr} --dataset ${DATA} --sim_mat ${SIM_MAT} --horizon ${horizon} "
-    cmd="python -u ./train.py ${option} ${model_option} ${rnn_option} | tee log/mamba_epi/mamba_epi.${LOG}.hid-${hid}.h-${horizon}.lr-${lr}.lam-${lam}.out"
+    cmd="python -u ./train.py ${option} ${model_option} ${rnn_option} | tee log/earth_epi/earth_epi.${LOG}.hid-${hid}.h-${horizon}.lr-${lr}.lam-${lam}.out"
     
     echo $cmd
     eval $cmd &

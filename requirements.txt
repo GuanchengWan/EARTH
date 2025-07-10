@@ -1,0 +1,33 @@
+# Requirements for EARTH Model
+
+## Core Dependencies
+```bash
+pip install torch>=2.0.0
+pip install numpy>=1.20.0
+pip install scipy>=1.7.0
+pip install scikit-learn>=1.0.0
+pip install torch-geometric>=2.0.0
+```
+
+## Specialized Dependencies
+```bash
+pip install mamba-ssm
+pip install controldiffeq
+pip install tensorboardX
+pip install einops
+pip install fastdtw
+```
+
+## Additional Dependencies
+```bash
+pip install matplotlib
+pip install tqdm
+```
+
+## Installation
+To install all dependencies at once:
+```bash
+pip install -r requirements.txt
+```
+
+Note: Some dependencies like `mamba_ssm` and `controldiffeq` may require specific versions or compilation. Please refer to their respective documentation for installation instructions.
